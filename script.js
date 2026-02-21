@@ -1,34 +1,48 @@
-function checkProbabilityTheory(count) {
+var services = {
+  "стрижка": "60 грн",
+  "гоління": "80 грн",
+  "Миття голови": "100 грн",
+  price() {
+    let sum = 0;
 
-    let evenCount = 0;
-    let oddCount = 0;
-
-    for (let i = 0; i < count; i++) {
-        let randomNumber = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
-
-        if (randomNumber % 2 === 0) {
-            evenCount++;
-        } else {
-            oddCount++;
-        }
+    for (let key in this) {
+      if (typeof this[key] === "string") {
+        sum += parseInt(this[key]);
+      }
     }
 
-    let evenPercent = (evenCount / count) * 100;
-    let oddPercent = (oddCount / count) * 100;
+    return sum;
+  },
+  minPrice() {
+      let min = Infinity;
 
-    const result = {
-        totalNumbers: count,
-        even: {
-            count: evenCount,
-            percent: Number(evenPercent.toFixed(2))
-        },
-        odd: {
-            count: oddCount,
-            percent: Number(oddPercent.toFixed(2))
+      for (let key in this) {
+        if (typeof this[key] === "string") {
+          const price = parseInt(this[key]);
+          if (price < min) {
+            min = price;
+          }
         }
-    };
+      }
+      return min;
+  },
+  maxPrice(){
+    let min = -Infinity;
 
-    return result;
-}
+          for (let key in this) {
+            if (typeof this[key] === "string") {
+              const price = parseInt(this[key]);
+              if (price > min) {
+                min = price;
+              }
+            }
+          }
+          return min;
+  }
+};
 
-console.log(checkProbabilityTheory(5869));
+services['Розбити скло'] = "200 грн";
+
+console.log(services.price());
+console.log(services.minPrice());
+console.log(services.maxPrice());
