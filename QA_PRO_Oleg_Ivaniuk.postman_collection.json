@@ -640,19 +640,16 @@
         "packages": {},
         "requests": {},
         "exec": [
-          "// Auto env-switch for every request based on Newman iteration index.\r",
-          "// Run with `newman run ... -n 2` to cover both DEV and PROD.\r",
-          "var envs = [\r",
-          "    { name: \"DEV_Oleg_Ivaniuk\", baseUrl: \"https://qauto2.forstudy.space/api\" },\r",
-          "    { name: \"PROD_Oleg_Ivaniuk\", baseUrl: \"https://qauto.forstudy.space/api\" }\r",
-          "];\r",
+          "// Pick env per iteration from data.json (passed via `newman run ... -d data.json`).\r",
+          "// If no data file is supplied (e.g. running directly in Postman desktop),\r",
+          "// fall back to whatever baseUrl the loaded environment file defines.\r",
+          "var dataBaseUrl = pm.iterationData.get(\"baseUrl\");\r",
+          "var dataEnvName = pm.iterationData.get(\"envName\");\r",
           "\r",
-          "var envIndex = (typeof pm.info.iteration === \"number\" ? pm.info.iteration : 0) % envs.length;\r",
-          "var currentEnv = envs[envIndex];\r",
-          "\r",
-          "pm.variables.set(\"baseUrl\", currentEnv.baseUrl);\r",
-          "pm.variables.set(\"currentEnv\", currentEnv.name);\r",
-          "pm.collectionVariables.set(\"envIndex\", envIndex);"
+          "if (dataBaseUrl) {\r",
+          "    pm.variables.set(\"baseUrl\", dataBaseUrl);\r",
+          "}\r",
+          "pm.variables.set(\"currentEnv\", dataEnvName || (pm.environment.name || \"unknown\"));"
         ]
       }
     },

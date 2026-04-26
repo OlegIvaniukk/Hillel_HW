@@ -1,0 +1,10 @@
+[
+  {
+    "envName": "DEV_Oleg_Ivaniuk",
+    "baseUrl": "https://qauto2.forstudy.space/api"
+  },
+  {
+    "envName": "PROD_Oleg_Ivaniuk",
+    "baseUrl": "https://qauto.forstudy.space/api"
+  }
+]
