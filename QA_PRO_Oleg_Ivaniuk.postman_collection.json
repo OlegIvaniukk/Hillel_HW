@@ -494,8 +494,12 @@
           "listen": "test",
           "script": {
             "exec": [
-              "let responce = pm.response.json();\r",
-              "pm.collectionVariables.set(\"carID\", responce.data.id);"
+              "var responce = pm.response.json();\r",
+              "pm.collectionVariables.set(\"carID\", responce.data.id);\r",
+              "// Capture car's current mileage so Create Expense doesn't send a lower one (would 400).\r",
+              "pm.collectionVariables.set(\"initialMileage\", responce.data.mileage);\r",
+              "// Reset lastMileage between Newman iterations so DEV/PROD don't bleed into each other.\r",
+              "pm.collectionVariables.unset(\"lastMileage\");"
             ],
             "type": "text/javascript",
             "packages": {},
@@ -667,7 +671,7 @@
   "variable": [
     {
       "key": "pwd",
-      "value": ""
+      "value": "Qwerty12345"
     },
     {
       "key": "createdRandomEmail",
@@ -707,7 +711,7 @@
     },
     {
       "key": "newExpense",
-      "value": ""
+      "value": "12"
     },
     {
       "key": "newExpenseMileage",
@@ -715,7 +719,7 @@
     },
     {
       "key": "initialMileage",
-      "value": ""
+      "value": "122"
     },
     {
       "key": "lastMileage",
@@ -727,11 +731,11 @@
     },
     {
       "key": "expectedError",
-      "value": ""
+      "value": "Last name is required"
     },
     {
       "key": "profileTestCases",
-      "value": ""
+      "value": "[{\"lastName\":\"\",\"country\":\"Poland\",\"expectedError\":\"Last name is required\"},{\"lastName\":\"l\",\"country\":\"Germany\",\"expectedError\":\"Last name is invalid\"}]"
     },
     {
       "key": "profileIteration",
